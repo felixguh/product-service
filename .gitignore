@@ -16,6 +16,7 @@ local.properties
 .loadpath
 .recommenders
 build/
+devops/volume/
 
 # External tool builders
 .externalToolBuilders/
