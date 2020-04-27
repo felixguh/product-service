@@ -1,5 +1,6 @@
 package br.com.productservice.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.bson.types.ObjectId;
@@ -33,6 +34,8 @@ public class Product {
 	private Category category;
 
 	private String name;
+	
+	private BigDecimal price;
 
 	@CreatedDate
 	private LocalDateTime creationDate;
