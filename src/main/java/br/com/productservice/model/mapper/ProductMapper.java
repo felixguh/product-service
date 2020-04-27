@@ -10,7 +10,8 @@ public class ProductMapper {
 	}
 
 	public static Product toEntity(final ProductPayload payload) {
-		return Product.builder().category(payload.getCategory()).name(payload.getName()).build();
+		return Product.builder().price(payload.getPrice()).category(payload.getCategory()).name(payload.getName())
+				.build();
 	}
 
 }

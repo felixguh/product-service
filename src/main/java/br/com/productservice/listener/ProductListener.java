@@ -1,5 +1,7 @@
 package br.com.productservice.listener;
 
+import static br.com.productservice.model.Product.PRODUCT_SEQUENCE;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
 import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent;
@@ -21,7 +23,7 @@ public class ProductListener extends AbstractMongoEventListener<Product> {
 	@Override
 	public void onBeforeConvert(BeforeConvertEvent<Product> event) {
 		if (event.getSource().getProductNumber() == null)
-			event.getSource().setProductNumber(sequenceGenerator.generateSequence(Product.PRODUCT_SEQUENCE));
+			event.getSource().setProductNumber(sequenceGenerator.generateSequence(PRODUCT_SEQUENCE));
 	}
 
 }
