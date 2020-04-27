@@ -22,13 +22,13 @@ public class ProductService {
 	public ProductResponse create(@Valid final ProductPayload payload) {
 		final var entity = repository.save(ProductMapper.toEntity(payload));
 
-		return new ProductResponse(entity);
+		return ProductResponse.builder().entity(entity).build();
 	}
 
 	public ProductResponse findByProductNumber(final Long productNumber) {
 		final var entity = repository.findByProductNumber(productNumber).orElseThrow(ProductNotExistsException::new);
 
-		return new ProductResponse(entity);
+		return ProductResponse.builder().entity(entity).build();
 	}
 
 }
