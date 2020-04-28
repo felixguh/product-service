@@ -2,6 +2,7 @@ package br.com.productservice.service;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.productservice.exception.ProductNotExistsException;
@@ -15,6 +16,7 @@ public class ProductService {
 
 	private final ProductRepository repository;
 
+	@Autowired
 	public ProductService(final ProductRepository repository) {
 		this.repository = repository;
 	}
