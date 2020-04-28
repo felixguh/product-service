@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
-import javax.print.attribute.standard.Media;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -32,7 +30,7 @@ public class ProductListenerTest {
     public void shouldGenerateSequenceProductNumber() {
         var collectionName = "products";
 
-        BeforeConvertEvent<Product> event = new BeforeConvertEvent<Product>(new Product(), collectionName);
+        final var event = new BeforeConvertEvent<Product>(new Product(), collectionName);
 
         when(sequenceGeneratorService.generateSequence(MEDIA_SEQUENCE)).thenReturn(1L);
 
@@ -45,7 +43,7 @@ public class ProductListenerTest {
     public void shouldGenerateSequenceWithNotNullSources() {
         final var product = ProductBuilder.create().now();
 
-        BeforeConvertEvent<Product> event = new BeforeConvertEvent<Product>(product, "products");
+        final var event = new BeforeConvertEvent<Product>(product, "products");
 
         productListener.onBeforeConvert(event);
 
