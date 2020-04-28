@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.com.productservice.exception.handler.ExceptionHandlerController;
 import br.com.productservice.helper.ProductPayloadBuilder;
 import br.com.productservice.helper.ProductResponseBuilder;
+import br.com.productservice.model.payload.ProductPayload;
 import br.com.productservice.service.ProductService;
 
 @RunWith(SpringRunner.class)
@@ -43,27 +44,21 @@ public class CreateProductApiTest {
 
 		when(productService.create(payload)).thenReturn(ProductResponseBuilder.create().now());
 
-		mockmvc.perform(
-				post(Url.BASE_URL.getUrl()).contentType(APPLICATION_JSON).content(mapper.writeValueAsString(payload)))
-				.andExpect(status().isCreated());
+		callPost(payload, 201);
 	}
 
 	@Test
 	public void whenCreateProductWithNullNameShouldReturnBadRequest() throws Exception {
 		final var payload = ProductPayloadBuilder.create().withName(null).now();
 
-		mockmvc.perform(
-				post(Url.BASE_URL.getUrl()).contentType(APPLICATION_JSON).content(mapper.writeValueAsString(payload)))
-				.andExpect(status().isBadRequest());
+		callPost(payload, 400);
 	}
 
 	@Test
 	public void whenCreateProductWithTheNameWithOneCharacterShouldReturnBadRequest() throws Exception {
 		final var payload = ProductPayloadBuilder.create().withName("A").now();
 
-		mockmvc.perform(
-				post(Url.BASE_URL.getUrl()).contentType(APPLICATION_JSON).content(mapper.writeValueAsString(payload)))
-				.andExpect(status().isBadRequest());
+		callPost(payload, 400);
 	}
 
 	@Test
@@ -72,36 +67,34 @@ public class CreateProductApiTest {
 				"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 				.now();
 
-		mockmvc.perform(
-				post(Url.BASE_URL.getUrl()).contentType(APPLICATION_JSON).content(mapper.writeValueAsString(payload)))
-				.andExpect(status().isBadRequest());
+		callPost(payload, 400);
 	}
 
 	@Test
 	public void whenCreateProductWithNullCategoryShouldReturnBadRequest() throws Exception {
 		final var payload = ProductPayloadBuilder.create().withCategory(null).now();
 
-		mockmvc.perform(
-				post(Url.BASE_URL.getUrl()).contentType(APPLICATION_JSON).content(mapper.writeValueAsString(payload)))
-				.andExpect(status().isBadRequest());
+		callPost(payload, 400);
 	}
 
 	@Test
 	public void whenCreateProductWithNullPriceShouldReturnBadRequest() throws Exception {
 		final var payload = ProductPayloadBuilder.create().withPrice(null).now();
 
-		mockmvc.perform(
-				post(Url.BASE_URL.getUrl()).contentType(APPLICATION_JSON).content(mapper.writeValueAsString(payload)))
-				.andExpect(status().isBadRequest());
+		callPost(payload, 400);
 	}
 
 	@Test
 	public void whenCreateProductWithNotPositivePriceShouldReturnBadRequest() throws Exception {
 		final var payload = ProductPayloadBuilder.create().withPrice(BigDecimal.valueOf(-15.50)).now();
 
+		callPost(payload, 400);
+	}
+	
+	private void callPost(final ProductPayload payload, final int status) throws Exception {
 		mockmvc.perform(
 				post(Url.BASE_URL.getUrl()).contentType(APPLICATION_JSON).content(mapper.writeValueAsString(payload)))
-				.andExpect(status().isBadRequest());
+				.andExpect(status().is(status));
 	}
 
 }

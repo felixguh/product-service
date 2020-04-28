@@ -1,5 +1,7 @@
 package br.com.productservice.service;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -31,7 +33,11 @@ public class ProductServiceTest {
 	public void shouldCreateProduct() {
 		final var payload = ProductPayloadBuilder.create().now();
 		
+		when(repository.save(any())).thenReturn(ProductBuilder.create().now());
+		
 		service.create(payload);
+		
+		verify(repository).save(any());
 	}
 	
 	@Test
@@ -45,6 +51,8 @@ public class ProductServiceTest {
 		when(repository.findByProductNumber(productNumber)).thenReturn(productOptional);
 		
 		service.findByProductNumber(productNumber);
+		
+		verify(repository).findByProductNumber(productNumber);
 	}
 	
 	@Test(expected = ProductNotExistsException.class)
