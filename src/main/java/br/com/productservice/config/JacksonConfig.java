@@ -14,7 +14,7 @@ public class JacksonConfig {
 
     @Bean
     public ObjectMapper jsonMapper() {
-        final ObjectMapper jsonMapper = new ObjectMapper();
+        final var jsonMapper = new ObjectMapper();
 
         jsonMapper.registerModule(new JavaTimeModule());
         jsonMapper.configure(WRITE_DATES_AS_TIMESTAMPS, false);
